@@ -1,0 +1,24 @@
+{
+  "name": "news_aggregator_server",
+  "version": "1.0.0",
+  "description": "The server repository for a personalised news aggregation tool that we are building for understanding the concepts of software engineering and product development using Agile frameworks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thanus-Kumaar/News_Aggregator_server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thanus-Kumaar/News_Aggregator_server/issues"
+  },
+  "homepage": "https://github.com/Thanus-Kumaar/News_Aggregator_server#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
