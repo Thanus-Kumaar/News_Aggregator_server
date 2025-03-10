@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Thanus-Kumaar/News_Aggregator_server#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.12.1",
     "nodemon": "^3.1.9"
   }
 }
