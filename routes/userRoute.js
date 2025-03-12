@@ -29,11 +29,14 @@ router.post("/", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const user = new User({
-      message: "Signup successful",
-      user: { name, email, password },
+      name: name,
+      email: email,
+      password: password,
     });
     await user.save();
-    res.status(201).json(user);
+    res.status(201).json({
+      message: "Signup successful",
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -50,9 +53,9 @@ router.get("/", async (req, res) => {
 });
 
 // Get a user by ID
-router.get("/:id", async (req, res) => {
+router.get("/:email", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ email: req.params.email });
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (error) {
@@ -94,7 +97,7 @@ router.put("/:id/password", async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { password: req.body.password }, // Hash this in real applications!
+      { password: req.body.password },
       { new: true }
     );
     res.json(user);
