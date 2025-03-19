@@ -30,11 +30,11 @@ app.get("/", (req, res) => {
   res.send("Welcome to Mongoose + Express API");
 });
 
-app.use("/api/users", userRoutes);
-app.use("/api/users", locRoutes);
-app.use("/api/users", langRoutes);
-app.use("/api/users", sourceRoutes);
-app.use("/api/articles", articleRoute);
+app.use("/NewsAgg/users", userRoutes);
+app.use("/NewsAgg/users", locRoutes);
+app.use("/NewsAgg/users", langRoutes);
+app.use("/NewsAgg/users", sourceRoutes);
+app.use("/NewsAgg/articles", articleRoute);
 
 
 const PORT = process.env.PORT || 5000;
