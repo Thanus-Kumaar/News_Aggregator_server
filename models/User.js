@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema(
     BusinessArticlesRead: { type: Number, default: 0 },
     TechnologyArticlesRead: { type: Number, default: 0 },
     GlobalArticlesRead: { type: Number, default: 0 },
+    GlobalRanking: {type: Number, default: 0},
   },
   { strict: false }
 );

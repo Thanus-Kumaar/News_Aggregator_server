@@ -64,19 +64,70 @@ router.get("/:email", async (req, res) => {
 });
 
 // Increment Article Read Count
+// Increment Article Read Count and Update Global Ranking
 router.put("/:id/articles", async (req, res) => {
   try {
     const field = req.body.articleType; // Example: "SportsArticlesRead"
+
+    // Update the user's article count
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { $inc: { [field]: 1 } }, // Increment by 1
+      { $inc: { [field]: 1 } }, // Increment article count
       { new: true }
     );
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Calculate the user's total articles read
+    const userTotalArticles =
+      user.EntertainmentArticlesRead +
+      user.SportsArticlesRead +
+      user.PoliticalArticlesRead +
+      user.BusinessArticlesRead +
+      user.TechnologyArticlesRead +
+      user.GlobalArticlesRead;
+
+    // Calculate total articles read by all users
+    const allUsers = await User.find({}, [
+      "EntertainmentArticlesRead",
+      "SportsArticlesRead",
+      "PoliticalArticlesRead",
+      "BusinessArticlesRead",
+      "TechnologyArticlesRead",
+      "GlobalArticlesRead",
+    ]);
+
+    const totalArticlesByAllUsers = allUsers.reduce((sum, user) => {
+      return (
+        sum +
+        user.EntertainmentArticlesRead +
+        user.SportsArticlesRead +
+        user.PoliticalArticlesRead +
+        user.BusinessArticlesRead +
+        user.TechnologyArticlesRead +
+        user.GlobalArticlesRead
+      );
+    }, 0);
+
+    // Calculate global ranking
+    let globalRanking = 0;
+    if (totalArticlesByAllUsers > 0) {
+      globalRanking = (userTotalArticles / totalArticlesByAllUsers) * 100;
+    }
+
+    // Update the user's GlobalRanking
+    user.GlobalRanking = globalRanking;
+    await user.save();
+
     res.json(user);
   } catch (error) {
+    console.error("Error updating article count and ranking:", error);
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Edit user name
 router.put("/:id/name", async (req, res) => {
