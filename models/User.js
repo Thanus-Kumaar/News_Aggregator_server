@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Feedback = require("./Feedback");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -15,6 +16,7 @@ const UserSchema = new mongoose.Schema(
     BusinessArticlesRead: { type: Number, default: 0 },
     TechnologyArticlesRead: { type: Number, default: 0 },
     GlobalArticlesRead: { type: Number, default: 0 },
+    feedback: { type: mongoose.Schema.Types.ObjectId, ref: "Feedback" },
     GlobalRanking: {type: Number, default: 0},
   },
   { strict: false }

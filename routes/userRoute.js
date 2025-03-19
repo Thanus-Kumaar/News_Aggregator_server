@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Feedback = require("../models/Feedback");
 
 router.post("/login", async (req, res) => {
   try {
@@ -57,6 +58,27 @@ router.get("/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
     if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Add feedback
+router.put("/:id/feedback", async (req, res) => {
+  try {
+    const feedback = new Feedback({
+      type: req.body.type,
+      feedback: req.body.feedback,
+      rating: req.body.rating,
+    });
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { feedback: feedback },
+      { new: true }
+    );
+
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
